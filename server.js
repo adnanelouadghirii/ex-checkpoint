@@ -12,6 +12,7 @@ function time_checker(req, res, next){
   var time = moment(),
   start = moment('09:00:00', format),
   end = moment('17:00:00', format);
+
   if (day!= 'Saturday' && day!= 'Sunday' && time.isBetween(start, end)){
     next();
   }
@@ -20,15 +21,21 @@ function time_checker(req, res, next){
   }
 }
 
-app.use('/home', time_checker, function(req,res){
+app.use(time_checker)
+
+app.get('/', function(req,res){
+    res.redirect('/home');
+  });
+
+app.use('/home', function(req,res){
     res.sendFile(path.join(__dirname+'/express/html/home.html'));
   });
 
-app.use('/services',time_checker, function(req,res){
+app.use('/services', function(req,res){
     res.sendFile(path.join(__dirname+'/express/html/services.html'));
   });
 
-app.use('/contact_us',time_checker, function(req,res){
+app.use('/contact_us', function(req,res){
     res.sendFile(path.join(__dirname+'/express/html/contact.html'));
   });
 const server = http.createServer(app);
