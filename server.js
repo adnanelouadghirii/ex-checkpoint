@@ -16,7 +16,7 @@ function time_checker(req, res, next){
     next();
   }
   else{
-    res.send('Server is outside working hours');
+    res.send('Request is outside working hours');
   }
 }
 
